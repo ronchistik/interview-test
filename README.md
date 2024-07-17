@@ -12,7 +12,7 @@ In the role of testing and optimization software engineer, you will work extensi
 3. **Alter only index.js and index.css** (see below for the changes we expect). **Do not alter any other files.**
 4. You can use the 3 reference images as guidance: final-design-when-page-scrolled-to-top.png, final-design-open-question.png and final-design-when-page-scrolled-to-top.png
 5. You can use goal.html as a reference of what the altered DOM should look like
-6. Once your changes are complete, push your new branch and create a PR to merge your new branch back to **your main branch.** **DO NOT CREATE A PR to THE ORIGINAL REPO.** If you do, other candidates can see your work.
+6. Once your changes are complete, push your new branch and create a PR to merge your new branch back to **your main branch.** **DO NOT CREATE A PR TO THE ORIGINAL REPO.** If you do, other candidates can see your work.
 7. Send a link of your PR to your interview contact
 
 ##Expected changes to index.css (you can use 3 included reference images as a reference):##
