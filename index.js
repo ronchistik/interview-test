@@ -51,6 +51,7 @@ function processHero(el) {
     heroData.forEach((action) => action.action.forEach((link, index) => {
         links += `<a href="${link.url}" class="con-button ${index === 1 ? 'blue': ''}">${link.text}</a>`
    }));
+	 processLinks(el);
    if(links !== '' && links !== undefined){
     heroData.forEach((hero) => {
         heroContent += `
@@ -72,17 +73,19 @@ function processBrick(el) {
     brickData.forEach((brick, index) => {
         brickContent += `
         <div class="brick ${index === 1 ? 'double' : ''} ${index === 2 ? 'triple' : ''}">
-        <div>
+					<div>
             <div>
-                <h3 class="title">${brick.title}</h3>
+                <p class="title">${brick.title}</p>
                 <p class="price">${brick.price}</p>
                 <p class="description">${brick.description}</p>
             </div>
-            </div>
+					</div>
         </div>`;
     });
     el.innerHTML = brickContent;
+		
 }
+
 
 function processFaq(el) {
     let faqContent = '';
@@ -90,47 +93,39 @@ function processFaq(el) {
         faqContent += `
         <div class="faq-set">
             <div class="question">
-                <div>
-                    <button aria-expanded="false" type="button" aria-controls="faq${index}_desc" class="faq-question-button"><h3>${faq.q}</h3></button>
-                </div>
+                <button aria-expanded="false" type="button" aria-controls="faq${index}_desc" class="faq-question-button">
+                    <h3>${faq.q}</h3>
+                </button>
                 <div id="faq${index}_desc" class="answer" aria-hidden="true">
-                    <div>
-                        <p>${faq.a}</p>
-                    </div>
+                    <p>${faq.a}</p>
                 </div>
             </div>
         </div>`;
     });
 
-
     el.innerHTML = faqContent;
-        // Add event listeners to the buttons
-        const buttons = el.querySelectorAll('.faq-question-button');
-        buttons.forEach((button) => {
-            button.addEventListener('click', function() {
-                const expanded = this.getAttribute('aria-expanded') === 'true';
-                const controlledPanel = document.getElementById(this.getAttribute('aria-controls'));
-                const elClickedId = this.getAttribute('aria-controls');
-                const btnElementClicked = document.getElementById(elClickedId);
-                
-                // Collapse all answers and set aria-expanded to false
-                buttons.forEach(b => {
-                    b.setAttribute('aria-expanded', 'false');
-                    const panel = document.getElementById(b.getAttribute('aria-controls'));
-                    panel.setAttribute('aria-hidden', 'true');
-                    btnElementClicked.classList.add('open');
-                    btnElementClicked.parentElement.parentElement.setAttribute('data','sticky');
-                });
-                // Toggle the clicked button and its corresponding panel
-                this.setAttribute('aria-expanded', String(!expanded));
-                controlledPanel.setAttribute('aria-hidden', String(expanded));
 
-                 expanded ? (btnElementClicked.classList.remove('open'),btnElementClicked.parentElement.parentElement.removeAttribute('data')) : null;
+    // Add event listeners to the buttons
+    const buttons = el.querySelectorAll('.faq-question-button');
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            const expanded = this.getAttribute('aria-expanded') === 'true';
+            buttons.forEach(b => {
+                b.setAttribute('aria-expanded', 'false');
+                document.getElementById(b.getAttribute('aria-controls')).setAttribute('aria-hidden', 'true');
             });
+
+            if (!expanded) {
+                this.setAttribute('aria-expanded', 'true');
+                document.getElementById(this.getAttribute('aria-controls')).setAttribute('aria-hidden', 'false');
+            }
         });
+    });
 }
+
 function processBanner(el) {
     let bannerContent = '';
+		processLinks(el);
     bannerData.forEach(banner => {
         bannerContent += `
             <p>${banner.title}</p>
@@ -138,7 +133,43 @@ function processBanner(el) {
         `;
     });
     el.innerHTML = bannerContent;
+		
+		window.addEventListener('scroll', () => {
+        const hero = document.querySelector('.hero');
+        if (hero.getBoundingClientRect().bottom < 0) {
+            el.style.display = 'flex';
+        } else {
+            el.style.display = 'none';
+        }
+    });
+		
 }
+
+function processBackgroundColor(el) {
+    const firstChild = el.firstElementChild;
+    const textContent = firstChild.textContent;
+    el.style.background = textContent;
+    firstChild.remove();
+}
+
+function processLinks(el) {
+    // If a link is inside a bold tag
+    el.querySelectorAll('b > a').forEach(link => {
+        link.classList.add('con-button');
+        const parent = link.parentElement;
+        parent.parentElement.insertBefore(link, parent);
+        parent.remove();
+    });
+
+    // If a link is inside an italics tag
+    el.querySelectorAll('i > a').forEach(link => {
+        link.classList.add('con-button', 'blue');
+        const parent = link.parentElement;
+        parent.parentElement.insertBefore(link, parent);
+        parent.remove();
+    });
+}
+
 document.querySelectorAll('.hero').forEach(processHero);
 document.querySelectorAll('.brick').forEach(processBrick);
 document.querySelectorAll('.faq').forEach(processFaq);

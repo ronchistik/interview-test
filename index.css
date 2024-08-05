@@ -275,9 +275,8 @@ section.section:has(h1) h1{
     overflow: hidden;
     transition: height .2s ease-in-out;
 }
-.open{
+.open {
     display:block;
-    height:20vh;
     transition: height .1s ease-in-out;
 }
 
@@ -299,6 +298,10 @@ section.section:has(h1) h1{
     display: flex;
     justify-content: center;
     align-items: center;
+    position: fixed;
+    width:100%;
+    bottom: 0;
+    z-index: 1000;
 }
 .banner .con-button.blue {
     margin-left: 8px;
