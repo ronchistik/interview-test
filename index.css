@@ -1,8 +1,6 @@
 :root {
     --global-height-nav: 64px;
     --global-height-breadcrumbs: 33px;
-    --global-height-navPromo: 65px;
-    --feds-totalheight-nav: calc(var(--feds-height-nav, --global-height-nav) + var(--feds-height-breadcrumbs, --global-height-breadcrumbs));
     --link-color: #035fe6;
     --link-hover-color: #136ff6;
     --link-color-dark: #1473E6;
@@ -158,9 +156,6 @@ section.section:has(h1) h1{
 .action-area {
     margin-top: 32px;
 }
-.action-area > *:not(:last-child) {
-    margin-right: 20px;
-}
 .hero p {
     font-size: 24px;
     line-height: 32px;
@@ -275,9 +270,8 @@ section.section:has(h1) h1{
     overflow: hidden;
     transition: height .2s ease-in-out;
 }
-.open{
+.open {
     display:block;
-    height:20vh;
     transition: height .1s ease-in-out;
 }
 
@@ -296,9 +290,13 @@ section.section:has(h1) h1{
     background-color: #eee;
     padding: 16px;
     text-align: center;
-    display: flex;
     justify-content: center;
     align-items: center;
+    display: none;
+    position: fixed;
+    width:100%;
+    bottom: 0;
+    z-index: 1000;
 }
 .banner .con-button.blue {
     margin-left: 8px;
@@ -341,5 +339,8 @@ section.section:has(h1) h1{
     }
     .triple{
         grid-column: span 3;
+    }
+    .action-area > *:not(:last-child) {
+        margin-right: 20px;
     }
 }
